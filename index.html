@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic MCP</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: radial-gradient(circle at top, #2c003e, #000); color: white; text-align: center; padding: 20px; }
+        h1 { color: #ffccff; }
+        input, button { padding: 10px; margin: 5px; border-radius: 8px; border: none; }
+        button { background: #ff66cc; color: white; cursor: pointer; }
+        button:hover { background: #ff3399; }
+        .card { margin-top: 20px; padding: 20px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body>
+    <h1>🌌 Cosmic MCP</h1>
+    <p>Enter your Name and Date of Birth to receive a cosmic compliment & mystical power.</p>
+
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="date" id="dob">
+    <button onclick="generate()">Reveal</button>
+
+    <div class="card" id="output"></div>
+
+    <script>
+        const compliments = [
+            "Your presence feels like spring sunlight — warm, rare, and unstoppable.",
+            "You carry the energy of a thousand shooting stars.",
+            "You make ordinary moments feel like constellations forming.",
+            "The universe pauses just to watch you smile.",
+            "You are the rare comet people wish upon."
+        ];
+
+        const powers = [
+            "Unlock hidden talents in others with a single conversation.",
+            "Summon cosmic calm in chaotic moments.",
+            "Travel between dreams and reality at will.",
+            "Make time slow when you laugh.",
+            "Turn doubts into stardust."
+        ];
+
+        function lifePathNumber(dob) {
+            const digits = dob.replace(/-/g, '').split('').map(Number);
+            let sum = digits.reduce((a, b) => a + b, 0);
+            while (sum > 9) sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+            return sum;
+        }
+
+        function generate() {
+            const name = document.getElementById("name").value;
+            const dob = document.getElementById("dob").value;
+            if (!name || !dob) {
+                alert("Please enter both name and date of birth!");
+                return;
+            }
+            const compliment = compliments[Math.floor(Math.random() * compliments.length)];
+            const power = powers[Math.floor(Math.random() * powers.length)];
+            const lifePath = lifePathNumber(dob);
+            document.getElementById("output").innerHTML = `
+                <h2>${name}</h2>
+                <p><strong>Compliment:</strong> ${compliment}</p>
+                <p><strong>Superpower:</strong> ${power}</p>
+                <p><strong>Life Path Number:</strong> ${lifePath}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
