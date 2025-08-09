@@ -1,69 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic MCP</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: radial-gradient(circle at top, #2c003e, #000); color: white; text-align: center; padding: 20px; }
-        h1 { color: #ffccff; }
-        input, button { padding: 10px; margin: 5px; border-radius: 8px; border: none; }
-        button { background: #ff66cc; color: white; cursor: pointer; }
-        button:hover { background: #ff3399; }
-        .card { margin-top: 20px; padding: 20px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌌 Cosmic MCP — Mystic Compliment & Power</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  max-width: 400px;
+  width: 100%;
+}
+input, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+button {
+  background: #ff6ec4;
+  background: linear-gradient(45deg, #ff6ec4, #7873f5);
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.9;
+}
+.result {
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+</style>
 </head>
 <body>
-    <h1>🌌 Cosmic MCP</h1>
-    <p>Enter your Name and Date of Birth to receive a cosmic compliment & mystical power.</p>
+<div class="card">
+  <h1>🌌 Cosmic MCP</h1>
+  <p>Enter your Name & DOB to reveal your cosmic compliment and power!</p>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="date" id="dob">
+  <br>
+  <button onclick="generate()">Reveal</button>
+  <div class="result" id="result"></div>
+</div>
 
-    <input type="text" id="name" placeholder="Your Name">
-    <input type="date" id="dob">
-    <button onclick="generate()">Reveal</button>
+<script>
+function lifePathNumber(dob) {
+  let digits = dob.replace(/-/g, '').split('').map(Number);
+  let sum = digits.reduce((a,b) => a+b, 0);
+  while (sum > 9) {
+    sum = sum.toString().split('').map(Number).reduce((a,b) => a+b, 0);
+  }
+  return sum;
+}
 
-    <div class="card" id="output"></div>
+function generate() {
+  let name = document.getElementById("name").value.trim();
+  let dob = document.getElementById("dob").value;
+  if (!name || !dob) {
+    document.getElementById("result").innerHTML = "✨ Please enter both Name & DOB";
+    return;
+  }
+  let num = lifePathNumber(dob);
 
-    <script>
-        const compliments = [
-            "Your presence feels like spring sunlight — warm, rare, and unstoppable.",
-            "You carry the energy of a thousand shooting stars.",
-            "You make ordinary moments feel like constellations forming.",
-            "The universe pauses just to watch you smile.",
-            "You are the rare comet people wish upon."
-        ];
+  const compliments = {
+    1: "You are a blazing trailblazer, shaping the cosmos with your will.",
+    2: "Your harmony brings peace to every soul you meet.",
+    3: "You radiate joy like starlight dancing in space.",
+    4: "Your strength is the bedrock of galaxies.",
+    5: "You are change itself — the wind between worlds.",
+    6: "Your care warms even the coldest corners of the universe.",
+    7: "Wisdom flows through you like ancient cosmic rivers.",
+    8: "You command destiny with the grace of a supernova.",
+    9: "Your compassion echoes across time and space."
+  };
 
-        const powers = [
-            "Unlock hidden talents in others with a single conversation.",
-            "Summon cosmic calm in chaotic moments.",
-            "Travel between dreams and reality at will.",
-            "Make time slow when you laugh.",
-            "Turn doubts into stardust."
-        ];
+  const powers = {
+    1: "Summon meteor showers to inspire those around you.",
+    2: "Weave invisible threads of connection between hearts.",
+    3: "Sing songs that make stars dance.",
+    4: "Build unshakable bridges across galaxies.",
+    5: "Bend cosmic winds to carry your message anywhere.",
+    6: "Heal broken worlds with a single touch.",
+    7: "Decode the hidden language of constellations.",
+    8: "Command gravity to bring order to chaos.",
+    9: "Radiate a light that guides lost travelers home."
+  };
 
-        function lifePathNumber(dob) {
-            const digits = dob.replace(/-/g, '').split('').map(Number);
-            let sum = digits.reduce((a, b) => a + b, 0);
-            while (sum > 9) sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            return sum;
-        }
-
-        function generate() {
-            const name = document.getElementById("name").value;
-            const dob = document.getElementById("dob").value;
-            if (!name || !dob) {
-                alert("Please enter both name and date of birth!");
-                return;
-            }
-            const compliment = compliments[Math.floor(Math.random() * compliments.length)];
-            const power = powers[Math.floor(Math.random() * powers.length)];
-            const lifePath = lifePathNumber(dob);
-            document.getElementById("output").innerHTML = `
-                <h2>${name}</h2>
-                <p><strong>Compliment:</strong> ${compliment}</p>
-                <p><strong>Superpower:</strong> ${power}</p>
-                <p><strong>Life Path Number:</strong> ${lifePath}</p>
-            `;
-        }
-    </script>
+  document.getElementById("result").innerHTML =
+    `<strong>Life Path ${num}</strong><br>` +
+    `💫 ${compliments[num]}<br>` +
+    `🪐 Superpower: ${powers[num]}`;
+}
+</script>
 </body>
 </html>
