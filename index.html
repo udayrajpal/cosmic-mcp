@@ -1,31 +1,44 @@
-<script>
-document.getElementById("generateForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const dob = document.getElementById("dob").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔮 Mystical Personality Oracle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🔮 Mystical Personality Oracle ✨</h1>
+    <p>🌟 Enter your name and date of birth to reveal your enchanted profile 🔍</p>
 
-  document.getElementById("output").innerHTML = "🔮 Generating your cosmic profile...";
+    <form id="oracleForm">
+      <label for="name">📝 Name</label>
+      <input type="text" id="name" placeholder="Your full name" required />
 
-  try {
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, dob })
-    });
+      <label for="dob">📅 Date of Birth</label>
+      <input type="date" id="dob" required />
 
-    const data = await response.json();
+      <button type="submit">✨ Reveal My Profile 🔓</button>
+    </form>
 
-    document.getElementById("output").innerHTML = `
-      <h3>🌟 Mystical Compliment</h3><p>${data.mysticalCompliment}</p>
-      <h3>⚡ Superpower</h3><p>${data.superpower}</p>
-      <h3>🧠 Thought Process</h3><p>${data.thoughtProcess}</p>
-      <h3>💖 Emotional Strengths</h3><p>${data.emotions}</p>
-      <h3>🎭 Preferred Roles</h3><p>${data.preferredRoles}</p>
-      <h3>🚧 Likely Challenges</h3><p>${data.challenges}</p>
-      <h3>🌈 Advice</h3><p>${data.advice}</p>
-    `;
-  } catch (error) {
-    document.getElementById("output").innerHTML = "❌ Error generating profile.";
-  }
-});
-</script>
+    <div id="loading" class="hidden">⏳ Summoning your profile...</div>
+
+    <div id="result" class="hidden">
+      <h2>🪄 Your Mystical Profile</h2>
+      <ul>
+        <li><strong>🌸 Mystical Compliment:</strong> <span id="mc"></span></li>
+        <li><strong>⚡ Superpower:</strong> <span id="sp"></span></li>
+        <li><strong>🧠 Thought Process:</strong> <span id="tp"></span></li>
+        <li><strong>💖 Emotions:</strong> <span id="em"></span></li>
+        <li><strong>🎭 Preferred Roles:</strong> <span id="pr"></span></li>
+        <li><strong>🪨 Challenges:</strong> <span id="ch"></span></li>
+        <li><strong>📜 Advice:</strong> <span id="ad"></span></li>
+      </ul>
+    </div>
+
+    <div id="error" class="error hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
