@@ -1,90 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cosmic Compliment Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: radial-gradient(circle at top, #1e1e2f, #000);
-      color: white;
-      padding: 2rem;
-    }
-    h1 {
-      color: #ffd700;
-    }
-    form {
-      margin: 2rem auto;
-      max-width: 400px;
-      background: rgba(255,255,255,0.1);
-      padding: 1.5rem;
-      border-radius: 10px;
-    }
-    input {
-      padding: 0.5rem;
-      margin: 0.5rem;
-      width: calc(100% - 1rem);
-      border: none;
-      border-radius: 5px;
-    }
-    button {
-      padding: 0.7rem 1.2rem;
-      background-color: #ffd700;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    #result {
-      margin-top: 2rem;
-      font-size: 1.2rem;
-      color: #00ffcc;
-    }
-  </style>
-</head>
-<body>
-  <h1>🌌 Cosmic Compliment & Power 🌌</h1>
+<script>
+document.getElementById("generateForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const dob = document.getElementById("dob").value;
 
-  <form id="cosmicForm">
-    <input type="text" id="name" placeholder="Enter your name" required />
-    <input type="date" id="dob" required />
-    <button type="submit">Generate</button>
-  </form>
+  document.getElementById("output").innerHTML = "🔮 Generating your cosmic profile...";
 
-  <div id="result"></div>
-
-  <script>
-    document.getElementById("cosmicForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const dob = document.getElementById("dob").value;
-
-      document.getElementById("result").textContent = "✨ Generating your cosmic gift...";
-
-      try {
-        const res = await fetch("/api/generate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ name, dob })
-        });
-
-        const data = await res.json();
-        if (data.result) {
-          document.getElementById("result").textContent = data.result;
-        } else {
-          document.getElementById("result").textContent = "⚠️ Something went wrong.";
-        }
-      } catch (err) {
-        console.error(err);
-        document.getElementById("result").textContent = "❌ Failed to connect to server.";
-      }
+  try {
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, dob })
     });
-  </script>
-</body>
-</html>
+
+    const data = await response.json();
+
+    document.getElementById("output").innerHTML = `
+      <h3>🌟 Mystical Compliment</h3><p>${data.mysticalCompliment}</p>
+      <h3>⚡ Superpower</h3><p>${data.superpower}</p>
+      <h3>🧠 Thought Process</h3><p>${data.thoughtProcess}</p>
+      <h3>💖 Emotional Strengths</h3><p>${data.emotions}</p>
+      <h3>🎭 Preferred Roles</h3><p>${data.preferredRoles}</p>
+      <h3>🚧 Likely Challenges</h3><p>${data.challenges}</p>
+      <h3>🌈 Advice</h3><p>${data.advice}</p>
+    `;
+  } catch (error) {
+    document.getElementById("output").innerHTML = "❌ Error generating profile.";
+  }
+});
+</script>
